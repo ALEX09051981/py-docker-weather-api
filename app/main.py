@@ -1,4 +1,3 @@
-# app/main.py
 
 import os
 import requests
@@ -11,7 +10,10 @@ def get_weather() -> None:
         return
 
     city = "Paris"
-    url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={city}&aqi=no"
+    url = (
+        "http://api.weatherapi.com/v1/current.json"
+        f"?key={api_key}&q={city}&aqi=no"
+    )
 
     print(f"Performing request to Weather API for city {city}...")
     try:
@@ -22,8 +24,11 @@ def get_weather() -> None:
         location = data["location"]
         current = data["current"]
 
-        print(f"{location['name']}/{location['country']} {location['localtime']} "
-              f"Weather: {current['temp_c']} Celsius, {current['condition']['text']}")
+        print(
+            f"{location['name']}/{location['country']} "
+            f"{location['localtime']} Weather: {current['temp_c']} Celsius, "
+            f"{current['condition']['text']}"
+        )
     except requests.RequestException as e:
         print("Request failed:", e)
     except KeyError:
