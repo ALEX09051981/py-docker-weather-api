@@ -1,6 +1,8 @@
-
 import os
 import requests
+
+CITY = "Paris"
+WEATHER_API_URL = "http://api.weatherapi.com/v1/current.json"
 
 
 def get_weather() -> None:
@@ -9,13 +11,9 @@ def get_weather() -> None:
         print("Error: API_KEY is not set.")
         return
 
-    city = "Paris"
-    url = (
-        "http://api.weatherapi.com/v1/current.json"
-        f"?key={api_key}&q={city}&aqi=no"
-    )
+    url = f"{WEATHER_API_URL}?key={api_key}&q={CITY}&aqi=no"
+    print(f"Performing request to Weather API for city {CITY}...")
 
-    print(f"Performing request to Weather API for city {city}...")
     try:
         response = requests.get(url)
         response.raise_for_status()
@@ -26,7 +24,8 @@ def get_weather() -> None:
 
         print(
             f"{location['name']}/{location['country']} "
-            f"{location['localtime']} Weather: {current['temp_c']} Celsius, "
+            f"{location['localtime']} "
+            f"Weather: {current['temp_c']} Celsius, "
             f"{current['condition']['text']}"
         )
     except requests.RequestException as e:
